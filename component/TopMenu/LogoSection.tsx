@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LogoSection(){
   return(
-    <div className="w-100 h-full flex pr-1 gap-4 hover:bg-sky-500/10 transition-all duration-150">
+    <Link href={"/"} className="w-100 h-full flex pr-1 gap-4 hover:bg-sky-500/10 transition-all duration-150">
       <div className="relative h-full aspect-square shrink-0">
         <Image src="/Logo.jpg" alt="Logo" fill className="object-contain" />
       </div>
@@ -10,6 +11,6 @@ export default function LogoSection(){
         <p className="text-2xl">JobPhobia</p>
         <p className="text-sm text-white/60">Massage Reservation Service</p>
       </div>
-    </div>
+    </Link>
   )
 }

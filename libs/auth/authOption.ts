@@ -4,10 +4,9 @@ import { NextAuthOptions } from "next-auth";
 import getUser from "./getUser";
 
 export const authOptions: NextAuthOptions = {
-  // pages:{
-  //   signIn: "/auth/signin",
-  //   signOut: "/auth/signout",
-  // },
+  pages:{
+    signIn: "/signin",
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
