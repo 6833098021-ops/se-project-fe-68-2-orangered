@@ -37,6 +37,10 @@ export default function ReservationPage() {
     );
   }
 
+  async function handleEdit(rid:string) {
+    
+  }
+
   if (loading)
     return (
       <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center font-mono uppercase tracking-[0.2em] text-xs">
@@ -102,6 +106,7 @@ export default function ReservationPage() {
               item={item} 
               index={index} 
               onDelete={handleDelete} 
+              onEdit={handleEdit}
             />
           ))}
         </div>
