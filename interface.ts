@@ -14,7 +14,7 @@ export interface IUser extends Document {
   getSignedJwtToken(): string;
 }
 
-interface MassageType {
+export interface MassageType {
   name: string;
   description: string;
   price: number;
@@ -22,7 +22,7 @@ interface MassageType {
   _id?: string;
 }
 
-interface ShopItem {
+export interface ShopItem {
   _id: string;
   id?: string;
   name: string;
@@ -58,7 +58,7 @@ interface ShopJson {
   data: ShopItem[]
 }
 
-interface Reservations{
+export interface Reservations{
   success: boolean
   count: number
   data: ReservationItem[]
@@ -78,7 +78,7 @@ interface ShopReserve {
   id: string;
 }
 
-interface ReservationItem {
+export interface ReservationItem {
   _id: string;
   appDate: string;       
   user: UserReserve;
