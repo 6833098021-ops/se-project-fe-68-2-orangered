@@ -1,13 +1,12 @@
-import { getServerSession } from "next-auth";
-
-export default async function createReservations(token:string, name:string, date:string, sid:string){
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/shops/${sid}/reservations`, {
+export default async function createReservations(token:string, name:string, time:string, sid:string){
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/shops/${sid}/reservations/`, {
     method: "POST",
     headers: {
+      "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      appDate: date,
+      appDate: time,
       user: name
     })
   })
