@@ -14,6 +14,7 @@ export default function TopMenu(){
       <div className="absolute left-1/2 -translate-x-1/2 flex justify-center items-center gap-12 tracking-wide uppercase text-sm font-light">
         <TopMenuItem item="Shop" pageRef="/shop"/>
         <TopMenuItem item="Reservation" pageRef="/reservations"/>
+        {session?.user.role==="admin" && <TopMenuItem item="CreateShop" pageRef="/admin/create"/>}
         {session ? (
           <TopMenuItem item="Logout" pageRef="api/auth/signout"/>
         ):(

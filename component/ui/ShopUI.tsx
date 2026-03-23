@@ -1,5 +1,5 @@
 import Image from "next/image"
-import ReservationForm from "../ReservationManagement/ReservationForm";
+import ReservationForm from "../FormComponent/ReservationForm";
 
 const PLACEHOLDER_IMG =
   "https://i.pinimg.com/1200x/4b/35/23/4b352395a4843dd059b7eb96444433ff.jpg";

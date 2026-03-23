@@ -5,6 +5,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Dayjs } from "dayjs";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import FormComponent from "./FormComponent";
 
 export default function ReservationForm({shop}:{shop: ShopItem}){
   const {data: session} = useSession();
@@ -36,7 +37,7 @@ export default function ReservationForm({shop}:{shop: ShopItem}){
   }
 
   return(
-    <form onSubmit={handleSubmit} action="submit" className="bg-[#0f172a]/50 flex flex-col items-center p-4 gap-4 rounded-lg border border-gray-700 text-gray-500 text-center text-xs italic">
+    <FormComponent handleSubmit={handleSubmit}>
       <div className="flex gap-3">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker className="bg-white w-42 rounded-xl" 
@@ -68,6 +69,6 @@ export default function ReservationForm({shop}:{shop: ShopItem}){
         </LocalizationProvider>
       </div>
       <button  className="bg-blue-500 hover:bg-indigo-500 transition-all rounded-2xl duration-100 w-36 h-10 text-white">submit</button>
-    </form>
+    </FormComponent>
   )
 }
