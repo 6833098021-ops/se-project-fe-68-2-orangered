@@ -20,6 +20,11 @@ const nextConfig = {
         port: "5000",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "http",
+        hostname: `jobphobia-backend.vercel.app`,
+        pathname: "/uploads/**",
+      },
     ],
   },
 }
