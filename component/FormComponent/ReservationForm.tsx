@@ -70,18 +70,26 @@ export default function ReservationForm({ shop }: { shop: ShopItem }) {
   };
 
   async function handleCreateReservation() {
-    if (!session || !date || !time || !massageType) {
-        alert("Please fill in all fields");
-        return;
-    }
+    if (!session || !date || !time || !massageType) return;
+    
+    const openTime = date
+      .hour(dayjs(shop.openClose.open, "HH:mm").hour())
+      .minute(dayjs(shop.openClose.open, "HH:mm").minute());
 
-    const openTime = getShopTime(shop.openClose.open);
-    const closeTime = getShopTime(shop.openClose.close);
+    const closeTime = date
+      .hour(dayjs(shop.openClose.close, "HH:mm").hour())
+      .minute(dayjs(shop.openClose.close, "HH:mm").minute());
 
-    const selectedTime = date.hour(time.hour()).minute(time.minute()).second(0).millisecond(0);
+    const selectedDateTime = date
+      .hour(time.hour())
+      .minute(time.minute());
 
-    if (selectedTime.isBefore(openTime) || selectedTime.isAfter(closeTime)) {
-      alert(`Store hours: ${shop.openClose.open} - ${shop.openClose.close}. Please adjust your time.`);
+    // // Final validation check before submitting
+    // const openTime = getShopTime(shop.openClose.open);
+    // const closeTime = getShopTime(shop.openClose.close);
+    
+    if (selectedDateTime.isBefore(openTime) || selectedDateTime.isAfter(closeTime)) {
+      alert(`Please select a time between ${shop.openClose.open} and ${shop.openClose.close}`);
       return;
     }
 
