@@ -22,7 +22,7 @@ const nextConfig = {
       },
       {
         protocol: "http",
-        hostname: `${process.env.BACKEND_URL}`,
+        hostname: `jobphobia-backend.vercel.app`,
         pathname: "/uploads/**",
       },
     ],
