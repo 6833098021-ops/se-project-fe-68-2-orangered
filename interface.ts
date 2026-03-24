@@ -51,7 +51,7 @@ export interface ShopItem {
   reservations?:[];
 }
   
-interface ShopJson {
+export interface ShopJson {
   success: boolean,
   count: number,
   pagination: Object,
