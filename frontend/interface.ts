@@ -84,5 +84,6 @@ export interface ReservationItem {
   user: UserReserve;
   shop: ShopReserve;
   createdAt: string;     
+  massageType: string;
   __v: number;
 }
