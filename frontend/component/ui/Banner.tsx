@@ -48,6 +48,7 @@ export default function Banner() {
 
       <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/60 via-transparent to-[#0f172a] z-10 pointer-events-none" />
 
+
       {session && (
         <div className="absolute top-12 right-12 z-30 flex flex-col items-end animate-in fade-in slide-in-from-right-4 duration-1000">
           <span className="text-blue-400 text-[10px] font-mono uppercase tracking-[0.4em] opacity-70">
