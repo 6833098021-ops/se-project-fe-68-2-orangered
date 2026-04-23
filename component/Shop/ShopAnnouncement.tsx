@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Announcement {
     _id: string;
@@ -10,9 +11,18 @@ interface Announcement {
     createdAt: string;
 }
 
-export default function ShopAnnouncement({ shopId }: { shopId: string }) {
+export default function ShopAnnouncement({ 
+    shopId, 
+    isOwner = false,
+    token 
+}: { 
+    shopId: string; 
+    isOwner?: boolean;
+    token?: string;
+}) {
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchAnnouncements = async () => {
@@ -21,14 +31,34 @@ export default function ShopAnnouncement({ shopId }: { shopId: string }) {
                 const result = await res.json();
                 if (result.success && result.data && result.data.length > 0) {
                     setAnnouncements(result.data);
-                    setIsOpen(true); // Open automatically on load if there are announcements
+                    // Do not auto-open if the user is the shop owner
+                    if (!isOwner) {
+                        setIsOpen(true);
+                    }
                 }
             } catch (err) {
                 console.error("Failed to fetch announcements", err);
             }
         };
         fetchAnnouncements();
-    }, [shopId]);
+    }, [shopId, isOwner]);
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("คุณแน่ใจหรือไม่ที่จะลบประกาศนี้?")) return;
+        if (!token) return;
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/announcements/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (res.ok) {
+                setAnnouncements(prev => prev.filter(a => a._id !== id));
+                if (announcements.length === 1) setIsOpen(false);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     if (announcements.length === 0) return null;
 
@@ -44,8 +74,14 @@ export default function ShopAnnouncement({ shopId }: { shopId: string }) {
 
             {/* Popup Overlay */}
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="bg-card w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl border border-card-border shadow-2xl relative animate-in zoom-in-95 duration-300">
+                <div 
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300"
+                    onClick={() => setIsOpen(false)}
+                >
+                    <div 
+                        className="bg-card w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl border border-card-border shadow-2xl relative animate-in zoom-in-95 duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="sticky top-0 bg-card/90 backdrop-blur-md p-4 border-b border-card-border flex justify-between items-center z-10">
                             <h2 className="text-xl font-serif text-accent uppercase tracking-widest">Shop Announcements</h2>
                             <button 
@@ -63,7 +99,25 @@ export default function ShopAnnouncement({ shopId }: { shopId: string }) {
                                             <img src={ann.imageUrl} alt={ann.title} className="w-full h-full object-cover" />
                                         </div>
                                     )}
-                                    <h3 className="text-lg font-bold text-text-main mb-2">{ann.title}</h3>
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="text-lg font-bold text-text-main">{ann.title}</h3>
+                                        {isOwner && (
+                                            <div className="flex gap-2">
+                                                <button 
+                                                    onClick={() => router.push('/announcements')}
+                                                    className="text-[9px] uppercase tracking-widest bg-gold/10 text-gold hover:bg-gold/20 px-3 py-1.5 rounded border border-gold/20 transition-all"
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button 
+                                                    onClick={() => handleDelete(ann._id)}
+                                                    className="text-[9px] uppercase tracking-widest bg-red-500/10 text-red-500 hover:bg-red-500/20 px-3 py-1.5 rounded border border-red-500/20 transition-all"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                     <p className="text-sm text-text-sub whitespace-pre-wrap leading-relaxed">{ann.content}</p>
                                     <p className="text-[10px] text-text-sub/50 mt-4 uppercase tracking-widest">
                                         {new Date(ann.createdAt).toLocaleDateString()}

@@ -3,6 +3,7 @@ import LogoSection from "./LogoSection";
 import TopMenuItem from "./TopMenuItem";
 import UserSection from "./UserSection";
 import ThemeToggle from "./ThemeToggle"; 
+import GlobalAnnouncement from "./GlobalAnnouncement";
 import { useSession } from "next-auth/react";
 
 export default function TopMenu(){
@@ -38,6 +39,7 @@ export default function TopMenu(){
       </div>
 
       <div className="flex items-center gap-4">
+        <GlobalAnnouncement />
         <ThemeToggle />
         <UserSection/>
       </div>
