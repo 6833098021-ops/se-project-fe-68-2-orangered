@@ -2,27 +2,27 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: '**' },  // allow any https image (for profile pictures)
-      { protocol: 'http', hostname: '**' },
+      { protocol: "https", hostname: "**" }, // allow any https image (for profile pictures)
+      { protocol: "http", hostname: "**" },
       {
-        protocol: 'https',
-        hostname: 'i.pinimg.com',
+        protocol: "https",
+        hostname: "i.pinimg.com",
       },
       {
-        protocol: 'https',
-        hostname: 'media.discordapp.net',
+        protocol: "https",
+        hostname: "media.discordapp.net",
       },
       {
-        protocol: 'https',
-        hostname: 'cdn.discordapp.com',
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
       },
       {
-        protocol: 'https',
-        hostname: 'drive.google.com',
+        protocol: "https",
+        hostname: "drive.google.com",
       },
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
       },
       {
         protocol: "http",
@@ -32,11 +32,11 @@ const nextConfig = {
       },
       {
         protocol: "http",
-        hostname: `jobphobia-backend.vercel.app`,
+        hostname: `OrangeRed-backend.vercel.app`,
         pathname: "/uploads/**",
       },
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

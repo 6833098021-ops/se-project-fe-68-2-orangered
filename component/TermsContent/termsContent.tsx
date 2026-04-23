@@ -23,7 +23,7 @@ export default function TermsContent() {
         <ul className="list-none space-y-2 pl-4 border-l-2 border-[var(--gold)]">
           <li>
             <strong className="text-[var(--text-main)]">"Platform":</strong>{" "}
-            Website, application, or any system under Jobphobia.
+            Website, application, or any system under OrangeRed.
           </li>
           <li>
             <strong className="text-[var(--text-main)]">"User":</strong> Any
@@ -77,19 +77,19 @@ export default function TermsContent() {
           3. Scope of Service
         </h3>
         <p>
-                <strong className="text-[var(--text-main)]">
-                  Intermediary Role:
-                </strong>{" "}
-                We act only as a "Middleman" matching users with providers. We
-                do not own the shops or employ the therapists.
-              </p>
-              <p>
-                <strong className="text-[var(--text-main)]">
-                  Booking Completion:
-                </strong>{" "}
-                Bookings are confirmed only after system validation and deposit
-                payment (if required).
-              </p>
+          <strong className="text-[var(--text-main)]">
+            Intermediary Role:
+          </strong>{" "}
+          We act only as a "Middleman" matching users with providers. We do not
+          own the shops or employ the therapists.
+        </p>
+        <p>
+          <strong className="text-[var(--text-main)]">
+            Booking Completion:
+          </strong>{" "}
+          Bookings are confirmed only after system validation and deposit
+          payment (if required).
+        </p>
       </section>
 
       {/* Section 4 */}

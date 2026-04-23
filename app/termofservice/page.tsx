@@ -12,7 +12,7 @@ export default function TOS() {
               Terms of <span className="text-[var(--gold)]">Service</span>
             </h1>
             <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] opacity-80">
-              Jobphobia Wellness Platform
+              OrangeRed Wellness Platform
             </p>
           </div>
 
@@ -28,7 +28,7 @@ export default function TOS() {
         <div className="space-y-12 text-sm md:text-base leading-relaxed backdrop-blur-sm bg-[var(--card-bg)]/30 p-8 md:p-12 rounded-2xl border border-[var(--card-border)] shadow-2xl">
           <div className="space-y-4">
             <p className="text-[var(--text-main)] leading-relaxed">
-              Welcome to <strong>Jobphobia</strong> Platform. This platform
+              Welcome to <strong>OrangeRed</strong> Platform. This platform
               provides a search and booking system for massage and spa services.
               By accessing or using our platform, you acknowledge that you have
               read, understood, and agreed to these terms in full.
@@ -44,7 +44,7 @@ export default function TOS() {
             <div className="pl-11 space-y-2 border-l border-[var(--card-border)] ml-1">
               <p>
                 <strong className="text-[var(--text-main)]">"Platform":</strong>{" "}
-                Website, application, or any system under Jobphobia.
+                Website, application, or any system under OrangeRed.
               </p>
               <p>
                 <strong className="text-[var(--text-main)]">"User":</strong> Any

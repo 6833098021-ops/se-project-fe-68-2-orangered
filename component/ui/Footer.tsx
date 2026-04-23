@@ -11,11 +11,10 @@ export default function Footer() {
   return (
     <footer className="w-full py-12 px-8 border-t border-[var(--card-border)] bg-[var(--card-bg)]/50 transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-        
         {/* Brand Section */}
         <div className="space-y-2 text-center md:text-left">
           <h3 className="text-sm font-serif tracking-widest uppercase text-[var(--text-main)]">
-            Jobphobia Massage
+            OrangeRed Massage
           </h3>
           <p className="text-[10px] text-[var(--text-sub)] tracking-[0.2em] uppercase opacity-70">
             © 2026 Digital Wellness For Job Phobic People
@@ -34,7 +33,6 @@ export default function Footer() {
             </Link>
           ))}
         </div>
-        
       </div>
     </footer>
   );
