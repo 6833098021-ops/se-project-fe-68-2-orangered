@@ -74,8 +74,14 @@ export default function ShopAnnouncement({
 
             {/* Popup Overlay */}
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="bg-card w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl border border-card-border shadow-2xl relative animate-in zoom-in-95 duration-300">
+                <div 
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300"
+                    onClick={() => setIsOpen(false)}
+                >
+                    <div 
+                        className="bg-card w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl border border-card-border shadow-2xl relative animate-in zoom-in-95 duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="sticky top-0 bg-card/90 backdrop-blur-md p-4 border-b border-card-border flex justify-between items-center z-10">
                             <h2 className="text-xl font-serif text-accent uppercase tracking-widest">Shop Announcements</h2>
                             <button 
