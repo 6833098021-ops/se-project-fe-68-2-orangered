@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react"; // 1. ดึง session มาใช้เพื่อส่ง token
+import { useSession } from "next-auth/react";
 import { getBackendBaseUrl } from "@/libs/api/baseUrl";
 
 interface Announcement {
@@ -10,9 +10,17 @@ interface Announcement {
   content: string;
   imageUrl?: string;
   createdAt: string;
+  shopId: string;
 }
 
-export default function AnnouncementPage() {
+interface Props {
+  params: {
+    shopId: string;
+  };
+}
+
+export default function ShopAnnouncementPage({ params }: Props) {
+  const { shopId } = params;
   const { data: session } = useSession();
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,13 +33,15 @@ export default function AnnouncementPage() {
 
   const isAuthorized =
     session?.user?.role === "admin" || session?.user?.role === "shopowner";
-  const API_BASE_URL = `${getBackendBaseUrl()}/api/v1/announcements`;
+
+  const BASE_URL = `${getBackendBaseUrl()}/api/v1/announcements`;
+  const SHOP_ANNOUNCEMENTS_URL = `${BASE_URL}/shops/${shopId}`;
 
   const fetchAnnouncements = async () => {
     if (!session?.user?.token) return;
     try {
       setLoading(true);
-      const res = await fetch(API_BASE_URL, {
+      const res = await fetch(SHOP_ANNOUNCEMENTS_URL, {
         headers: { Authorization: `Bearer ${session.user.token}` },
       });
       const result = await res.json();
@@ -44,27 +54,28 @@ export default function AnnouncementPage() {
   };
 
   useEffect(() => {
-    if (session?.user?.token) fetchAnnouncements();
-  }, [session?.user?.token]);
+    if (session?.user?.token && shopId) fetchAnnouncements();
+  }, [session?.user?.token, shopId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!session?.user?.token) return alert("Unauthorized"); // เช็คสิทธิ์
+    if (!session?.user?.token) return alert("Unauthorized");
 
     setIsProcessing(true);
+    // POST → /api/v1/announcements/shops/:shopId
+    // PUT  → /api/v1/announcements/:id
     const method = editingId ? "PUT" : "POST";
-    const url = editingId ? `${API_BASE_URL}/${editingId}` : API_BASE_URL;
+    const url = editingId ? `${BASE_URL}/${editingId}` : SHOP_ANNOUNCEMENTS_URL;
 
     try {
       const res = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${session.user.token}`, // 2. ใส่ Token ไปที่ Backend
+          Authorization: `Bearer ${session.user.token}`,
         },
-        body: JSON.stringify({ title, content, imageUrl }),
+        body: JSON.stringify({ title, content, imageUrl, shopId }),
       });
-
       if (res.ok) {
         resetForm();
         fetchAnnouncements();
@@ -80,7 +91,7 @@ export default function AnnouncementPage() {
     if (!confirm("คุณแน่ใจไหมที่จะลบโพสต์นี้?") || !session?.user?.token)
       return;
     try {
-      const res = await fetch(`${API_BASE_URL}/${id}`, {
+      const res = await fetch(`${BASE_URL}/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${session.user.token}` },
       });
@@ -106,22 +117,29 @@ export default function AnnouncementPage() {
   };
 
   return (
-    // 3. ปรับสีให้เป็น Semantic ตาม Theme (bg-background, text-foreground)
     <div className="min-h-screen bg-background text-foreground p-6 md:p-12 transition-colors duration-500">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-serif font-bold text-text-main mb-8 uppercase tracking-widest">
-          Announcements Manager
-        </h1>
+        {/* Header */}
+        <div className="mb-8">
+          <p className="text-[9px] uppercase tracking-[0.5em] text-gold/60 font-mono mb-2">
+            Shop · {shopId}
+          </p>
+          <h1 className="text-3xl font-serif font-bold text-text-main uppercase tracking-widest">
+            Announcements
+          </h1>
+          <div className="mt-3 h-px w-16 bg-gold/20" />
+        </div>
 
-        {/* ฟอร์มจัดการ: ใช้ bg-card และ border-card-border (แสดงเฉพาะ admin หรือ shopowner) */}
+        {/* Create / Edit Form */}
         {isAuthorized && (
           <form
             onSubmit={handleSubmit}
             className="bg-card border border-card-border p-8 rounded-2xl mb-12 shadow-2xl transition-all"
           >
             <h2 className="text-lg font-serif font-bold text-accent mb-6 uppercase tracking-widest">
-              {editingId ? "✏️ Edit Announcement" : "✨ Create New Post"}
+              {editingId ? "✏️ Edit Announcement" : "✨ New Post"}
             </h2>
+
             <input
               type="text"
               placeholder="Title"
@@ -169,12 +187,18 @@ export default function AnnouncementPage() {
           </form>
         )}
 
-        {/* รายการประกาศ */}
+        {/* Announcement List */}
         <div className="space-y-8">
           {loading ? (
             <p className="text-center font-mono text-text-sub animate-pulse">
-              Loading Identity...
+              Loading Announcements...
             </p>
+          ) : announcements.length === 0 ? (
+            <div className="text-center py-20 opacity-40">
+              <p className="text-[9px] uppercase tracking-[0.5em] text-text-sub font-mono">
+                No announcements for this shop yet
+              </p>
+            </div>
           ) : (
             announcements.map((item) => (
               <div
@@ -193,9 +217,18 @@ export default function AnnouncementPage() {
                 )}
                 <div className="p-8">
                   <div className="flex justify-between items-start mb-4">
-                    <h2 className="text-xl font-serif font-semibold text-text-main tracking-wide">
-                      {item.title}
-                    </h2>
+                    <div>
+                      <h2 className="text-xl font-serif font-semibold text-text-main tracking-wide">
+                        {item.title}
+                      </h2>
+                      <p className="text-[8px] font-mono text-text-sub/40 mt-1 uppercase tracking-widest">
+                        {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
                     {isAuthorized && (
                       <div className="flex gap-3">
                         <button
