@@ -20,9 +20,16 @@ export default function ShopUI({
   const displayImage = isValidUrl ? shop.picture : PLACEHOLDER_IMG;
   const isLimitReached = session?.user.role === "user" && reservationCount >= 3;
   const slotLabel = reservationCount === 1 ? "Slot" : "Slots";
+  const isOwner = session?.user?.role === "shopowner" && shop.owner === session?.user?._id;
 
   return (
     <div className="flex flex-col md:flex-row bg-background transition-colors duration-300">
+      <ShopAnnouncement 
+        shopId={shop._id} 
+        isOwner={isOwner} 
+        token={session?.user?.token} 
+      />
+      
       <div className="relative w-full md:w-1/2 h-80 md:h-auto overflow-hidden">
         <Image
           src={displayImage}
