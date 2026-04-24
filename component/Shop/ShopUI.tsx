@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Session } from "next-auth";
 import { ShopItem } from "@/interface";
 import AvgRatingBadge from "../Rating/AvgRatingBadge";
+import ShopAnnouncement from "./ShopAnnouncement";
 
 const PLACEHOLDER_IMG = "https://i.pinimg.com/1200x/4b/35/23/4b352395a4843dd059b7eb96444433ff.jpg";
 
