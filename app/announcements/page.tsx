@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react"; // 1. ดึง session มาใช้เพื่อส่ง token
+import { getBackendBaseUrl } from "@/libs/api/baseUrl";
 
 interface Announcement {
     _id: string;
@@ -24,8 +25,7 @@ export default function AnnouncementPage() {
     const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
     const isAuthorized = session?.user?.role === 'admin' || session?.user?.role === 'shopowner';
-
-    const API_BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/announcements`;
+    const API_BASE_URL = `${getBackendBaseUrl()}/api/announcements`;
 
     const fetchAnnouncements = async () => {
         if (!session?.user?.token) return;

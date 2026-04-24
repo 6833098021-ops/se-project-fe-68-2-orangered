@@ -20,6 +20,10 @@ export default function TopMenu(){
           item="Reservation" 
           pageRef={session?.user?.role === "shopowner" ? "/shopowner/reservations" : "/reservations"}
         />
+        <TopMenuItem 
+          item="Announcement" 
+          pageRef="/announcements"
+        />
         {session?.user?.role === "shopowner" && (
           <TopMenuItem item="Chat" pageRef="/chat" />
         )}
@@ -27,7 +31,7 @@ export default function TopMenu(){
         {session?.user.role==="admin" && <TopMenuItem item="AllUser" pageRef="/admin/user"/>}
         {session ? (
           <>
-<TopMenuItem item="Logout" pageRef="/api/auth/signout"/>
+        <TopMenuItem item="Logout" pageRef="/api/auth/signout"/>
           </>
         ) : (
           <TopMenuItem item="Login" pageRef="/api/auth/signin"/>
